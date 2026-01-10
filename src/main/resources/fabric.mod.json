@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "imperium-mod",
+	"version": "${version}",
+	"name": "Imperium Mod",
+	"description": "Imperium Mod by NateDubs.",
+	"authors": [
+		"NateDubs"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Nathan-C-Wong/Minecraft-Imperium-Mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/imperium-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.natedubs.imperiummod.ImperiumMod"
+		],
+		"fabric-datagen": [
+			"net.natedubs.imperiummod.ImperiumModDataGenerator"
+		],
+		"client": [
+			"net.natedubs.imperiummod.ImperiumModClient"
+		]
+	},
+	"mixins": [
+		"imperium-mod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
