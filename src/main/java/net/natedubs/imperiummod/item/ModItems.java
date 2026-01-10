@@ -11,6 +11,7 @@ import net.natedubs.imperiummod.ImperiumMod;
 public class ModItems {
 
     public static final Item BLACK_DIAMOND = registerItem("black_diamond", new Item(new Item.Settings()));
+    public static final Item UNREFINED_BLACK_DIAMOND = registerItem("unrefined_black_diamond", new Item(new Item.Settings()));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(ImperiumMod.MOD_ID, name), item);
@@ -21,6 +22,7 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(BLACK_DIAMOND);
+            entries.add(UNREFINED_BLACK_DIAMOND);
         });
 
     }
