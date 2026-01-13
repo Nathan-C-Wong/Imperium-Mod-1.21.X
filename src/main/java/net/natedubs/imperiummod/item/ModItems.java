@@ -10,8 +10,13 @@ import net.natedubs.imperiummod.ImperiumMod;
 
 public class ModItems {
 
+    // Black Diamond
     public static final Item BLACK_DIAMOND = registerItem("black_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_BLACK_DIAMOND = registerItem("unrefined_black_diamond", new Item(new Item.Settings()));
+
+    // Chaos Diamond
+    public static final Item CHAOS_DIAMOND = registerItem("chaos_diamond", new Item(new Item.Settings()));
+    public static final Item UNREFINED_CHAOS_DIAMOND = registerItem("unrefined_chaos_diamond", new Item(new Item.Settings()));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(ImperiumMod.MOD_ID, name), item);
@@ -23,6 +28,8 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(BLACK_DIAMOND);
             entries.add(UNREFINED_BLACK_DIAMOND);
+            entries.add(CHAOS_DIAMOND);
+            entries.add(UNREFINED_CHAOS_DIAMOND);
         });
 
     }
