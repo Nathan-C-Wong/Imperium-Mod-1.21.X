@@ -19,7 +19,11 @@ public class ModItems {
     public static final Item UNREFINED_CHAOS_DIAMOND = registerItem("unrefined_chaos_diamond", new Item(new Item.Settings()));
 
     private static Item registerItem(String name, Item item) {
-        return Registry.register(Registries.ITEM, Identifier.of(ImperiumMod.MOD_ID, name), item);
+        // Create identifier for item
+        Identifier itemID = Identifier.of(ImperiumMod.MOD_ID, name);
+
+        // Register the item and return it
+        return Registry.register(Registries.ITEM, itemID, item);
     }
 
     public static void registerModItems() {

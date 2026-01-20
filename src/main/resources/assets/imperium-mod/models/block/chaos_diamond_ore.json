@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "imperium-mod:block/chaos_diamond_ore"
+  }
+}
