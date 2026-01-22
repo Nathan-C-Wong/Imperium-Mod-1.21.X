@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "imperium-mod:block/cube_of_corruption"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "imperium-mod:black_diamond_block",
+    "imperium-mod:black_diamond_ore",
+    "imperium-mod:chaos_diamond_block",
+    "imperium-mod:chaos_diamond_ore",
+    "imperium-mod:cube_of_corruption"
+  ]
+}

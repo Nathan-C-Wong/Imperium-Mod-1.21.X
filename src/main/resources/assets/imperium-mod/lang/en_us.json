@@ -1,4 +1,6 @@
 {
+  "itemGroup.imperium-mod": "Imperium",
+
   "item.imperium-mod.black_diamond": "Black Diamond",
   "item.imperium-mod.unrefined_black_diamond": "Unrefined Black Diamond",
   "item.imperium-mod.chaos_diamond": "Chaos Diamond",
@@ -7,5 +9,6 @@
   "block.imperium-mod.black_diamond_block": "Block of Black Diamond",
   "block.imperium-mod.black_diamond_ore": "Black Diamond Ore",
   "block.imperium-mod.chaos_diamond_block": "Block of Chaos Diamond",
-  "block.imperium-mod.chaos_diamond_ore": "Chaos Diamond Ore"
+  "block.imperium-mod.chaos_diamond_ore": "Chaos Diamond Ore",
+  "block.imperium-mod.cube_of_corruption": "Cube of Corruption"
 }

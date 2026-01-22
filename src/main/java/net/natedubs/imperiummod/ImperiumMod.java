@@ -3,6 +3,7 @@ package net.natedubs.imperiummod;
 import net.fabricmc.api.ModInitializer;
 
 import net.natedubs.imperiummod.block.ModBlocks;
+import net.natedubs.imperiummod.item.ModItemGroups;
 import net.natedubs.imperiummod.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ public class ImperiumMod implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+		ModItemGroups.registerItemGroups();
 
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();

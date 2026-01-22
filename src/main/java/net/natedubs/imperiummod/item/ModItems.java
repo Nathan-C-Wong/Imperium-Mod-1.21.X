@@ -10,6 +10,8 @@ import net.natedubs.imperiummod.ImperiumMod;
 
 public class ModItems {
 
+    /*  ===============================================================================  */
+
     // Black Diamond
     public static final Item BLACK_DIAMOND = registerItem("black_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_BLACK_DIAMOND = registerItem("unrefined_black_diamond", new Item(new Item.Settings()));
@@ -17,6 +19,8 @@ public class ModItems {
     // Chaos Diamond
     public static final Item CHAOS_DIAMOND = registerItem("chaos_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_CHAOS_DIAMOND = registerItem("unrefined_chaos_diamond", new Item(new Item.Settings()));
+
+    /*  ===============================================================================  */
 
     private static Item registerItem(String name, Item item) {
         // Create identifier for item
