@@ -29,10 +29,18 @@ public class ModItemGroups {
 
         // Register items to the custom item group.
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_ITEM_GROUP_KEY).register(itemGroup -> {
+
+            // Ingredients
             itemGroup.add(ModItems.BLACK_DIAMOND);
             itemGroup.add(ModItems.UNREFINED_BLACK_DIAMOND);
             itemGroup.add(ModItems.CHAOS_DIAMOND);
             itemGroup.add(ModItems.UNREFINED_CHAOS_DIAMOND);
+
+            // Custom Items
+            itemGroup.add(ModItems.HEAVENS_VERDICT);
+            itemGroup.add(ModItems.PHILOSOPHERS_STONE);
+
+            // Blocks
             itemGroup.add(ModBlocks.BLACK_DIAMOND_BLOCK);
             itemGroup.add(ModBlocks.BLACK_DIAMOND_ORE);
             itemGroup.add(ModBlocks.CHAOS_DIAMOND_BLOCK);

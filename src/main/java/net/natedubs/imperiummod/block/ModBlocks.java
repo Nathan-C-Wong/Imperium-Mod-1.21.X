@@ -22,13 +22,13 @@ public class ModBlocks {
 
     // Black Diamond Block
     public static final Block BLACK_DIAMOND_BLOCK = registerBlockItem("black_diamond_block",
-            new Block(AbstractBlock.Settings.create().strength(3f).requiresTool().sounds(BlockSoundGroup.AMETHYST_BLOCK)),
+            new Block(AbstractBlock.Settings.create().strength(4.0f, 1200.0F).requiresTool().sounds(BlockSoundGroup.AMETHYST_BLOCK)),
             true);
 
     public static final Block BLACK_DIAMOND_ORE = registerBlockItem("black_diamond_ore",
             new ExperienceDroppingBlock(
                     UniformIntProvider.create(3, 7),
-                    AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(30.0F, 1200.0F)
+                    AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresTool().strength(3.0F, 1200.0F)
             ),
             true);
 

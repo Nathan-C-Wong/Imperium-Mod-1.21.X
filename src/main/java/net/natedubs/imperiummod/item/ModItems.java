@@ -7,18 +7,24 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.natedubs.imperiummod.ImperiumMod;
+import net.natedubs.imperiummod.item.custom.HeavensVerdictItem;
+import net.natedubs.imperiummod.item.custom.PhilosophersStoneItem;
 
 public class ModItems {
 
     /*  ===============================================================================  */
 
-    // Black Diamond
+    // Ingredients
     public static final Item BLACK_DIAMOND = registerItem("black_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_BLACK_DIAMOND = registerItem("unrefined_black_diamond", new Item(new Item.Settings()));
-
-    // Chaos Diamond
     public static final Item CHAOS_DIAMOND = registerItem("chaos_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_CHAOS_DIAMOND = registerItem("unrefined_chaos_diamond", new Item(new Item.Settings()));
+
+    // Combat
+    public static final Item HEAVENS_VERDICT = registerItem("heavens_verdict", new HeavensVerdictItem(new Item.Settings().maxDamage(2500).fireproof()));
+
+    // Tools & misc items
+    public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().fireproof()));
 
     /*  ===============================================================================  */
 
@@ -38,6 +44,10 @@ public class ModItems {
             entries.add(UNREFINED_BLACK_DIAMOND);
             entries.add(CHAOS_DIAMOND);
             entries.add(UNREFINED_CHAOS_DIAMOND);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
+            entries.add(HEAVENS_VERDICT);
         });
 
     }
