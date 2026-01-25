@@ -1,6 +1,9 @@
 package net.natedubs.imperiummod.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.type.FoodComponent;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -20,11 +23,19 @@ public class ModItems {
     public static final Item CHAOS_DIAMOND = registerItem("chaos_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_CHAOS_DIAMOND = registerItem("unrefined_chaos_diamond", new Item(new Item.Settings()));
 
+    // Food
+    public static final FoodComponent BURRITO_COMPONENT = new FoodComponent.Builder()
+            .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 5*20, 2), 1.0f)
+            .nutrition(12)
+            .saturationModifier(10.0f)
+            .build();
+    public static final Item BURRITO = registerItem("burrito", new Item(new Item.Settings().food(BURRITO_COMPONENT)));
+
     // Combat
     public static final Item HEAVENS_VERDICT = registerItem("heavens_verdict", new HeavensVerdictItem(new Item.Settings().maxDamage(2500).fireproof()));
 
     // Tools & misc items
-    public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(1799).fireproof()));
+    public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(300).fireproof()));
 
     /*  ===============================================================================  */
 
@@ -50,5 +61,12 @@ public class ModItems {
             entries.add(HEAVENS_VERDICT);
         });
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
+            entries.add(PHILOSOPHERS_STONE);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
+            entries.add(BURRITO);
+        });
     }
 }

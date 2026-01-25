@@ -36,6 +36,9 @@ public class ModItemGroups {
             itemGroup.add(ModItems.CHAOS_DIAMOND);
             itemGroup.add(ModItems.UNREFINED_CHAOS_DIAMOND);
 
+            // Food
+            itemGroup.add(ModItems.BURRITO);
+
             // Custom Items
             itemGroup.add(ModItems.HEAVENS_VERDICT);
             itemGroup.add(ModItems.PHILOSOPHERS_STONE);

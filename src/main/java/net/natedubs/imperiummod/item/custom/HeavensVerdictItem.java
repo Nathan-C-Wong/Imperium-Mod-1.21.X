@@ -64,9 +64,12 @@ public class HeavensVerdictItem extends Item {
         if (coord != null) {
 
             ItemStack itemStack = user.getStackInHand(hand);
-            itemStack.damage(1, ((ServerWorld) world), ((ServerPlayerEntity) user), item -> {
-                user.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND);
-            });
+            itemStack.damage(
+                    1,
+                    ((ServerWorld) world),
+                    ((ServerPlayerEntity) user),
+                    item -> user.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND)
+            );
 
             LightningEntity lightningBolt = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
             lightningBolt.setPosition(coord.toCenterPos());
