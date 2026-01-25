@@ -1,0 +1,132 @@
+package net.natedubs.imperiummod.item.custom;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.world.World;
+
+import java.util.Map;
+
+public class PhilosophersStoneItem extends Item {
+
+    public static final Map<Block, Block> blockMap =
+            Map.ofEntries(
+                    // Stone group
+                    Map.entry(Blocks.STONE, Blocks.STONE_BRICKS),
+                    Map.entry(Blocks.STONE_BRICKS, Blocks.MOSSY_STONE_BRICKS),
+                    Map.entry(Blocks.MOSSY_STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS),
+
+                    // Dirt group
+                    Map.entry(Blocks.DIRT, Blocks.GRASS_BLOCK),
+                    Map.entry(Blocks.GRASS_BLOCK, Blocks.SAND),
+                    Map.entry(Blocks.SAND, Blocks.GRAVEL),
+                    Map.entry(Blocks.GRAVEL, Blocks.DIRT),
+
+
+                    // Diorite, Andesite, Granite group
+                    Map.entry(Blocks.DIORITE, Blocks.ANDESITE),
+                    Map.entry(Blocks.ANDESITE, Blocks.GRANITE),
+                    Map.entry(Blocks.GRANITE, Blocks.DIORITE),
+
+
+                    // Grass and Plant group
+                    Map.entry(Blocks.SHORT_GRASS, Blocks.FERN),
+                    Map.entry(Blocks.FERN, Blocks.DEAD_BUSH),
+                    Map.entry(Blocks.DEAD_BUSH, Blocks.CACTUS),
+                    Map.entry(Blocks.CACTUS, Blocks.SUGAR_CANE),
+                    Map.entry(Blocks.SUGAR_CANE, Blocks.BAMBOO),
+                    Map.entry(Blocks.BAMBOO, Blocks.AZALEA),
+                    Map.entry(Blocks.AZALEA, Blocks.SWEET_BERRY_BUSH),
+                    Map.entry(Blocks.SWEET_BERRY_BUSH, Blocks.SHORT_GRASS),
+
+                    // Logs
+                    Map.entry(Blocks.OAK_LOG, Blocks.BIRCH_LOG),
+                    Map.entry(Blocks.BIRCH_LOG, Blocks.SPRUCE_LOG),
+                    Map.entry(Blocks.SPRUCE_LOG, Blocks.ACACIA_LOG),
+                    Map.entry(Blocks.ACACIA_LOG, Blocks.JUNGLE_LOG),
+                    Map.entry(Blocks.JUNGLE_LOG, Blocks.DARK_OAK_LOG),
+                    Map.entry(Blocks.DARK_OAK_LOG, Blocks.CHERRY_LOG),
+                    Map.entry(Blocks.CHERRY_LOG, Blocks.MANGROVE_LOG),
+                    Map.entry(Blocks.MANGROVE_LOG, Blocks.OAK_LOG),
+
+                    // Nether Logs
+                    Map.entry(Blocks.CRIMSON_STEM, Blocks.WARPED_STEM),
+                    Map.entry(Blocks.WARPED_STEM, Blocks.CRIMSON_STEM),
+
+                    // Planks
+                    Map.entry(Blocks.OAK_PLANKS, Blocks.BIRCH_PLANKS),
+                    Map.entry(Blocks.BIRCH_PLANKS, Blocks.SPRUCE_PLANKS),
+                    Map.entry(Blocks.SPRUCE_PLANKS, Blocks.ACACIA_PLANKS),
+                    Map.entry(Blocks.ACACIA_PLANKS, Blocks.JUNGLE_PLANKS),
+                    Map.entry(Blocks.JUNGLE_PLANKS, Blocks.DARK_OAK_PLANKS),
+                    Map.entry(Blocks.DARK_OAK_PLANKS, Blocks.CHERRY_PLANKS),
+                    Map.entry(Blocks.CHERRY_PLANKS, Blocks.MANGROVE_PLANKS),
+                    Map.entry(Blocks.MANGROVE_PLANKS, Blocks.OAK_PLANKS),
+
+                    // One Block Tall Flowers
+                    Map.entry(Blocks.ALLIUM, Blocks.AZURE_BLUET),
+                    Map.entry(Blocks.AZURE_BLUET, Blocks.BLUE_ORCHID),
+                    Map.entry(Blocks.BLUE_ORCHID, Blocks.CORNFLOWER),
+                    Map.entry(Blocks.CORNFLOWER, Blocks.DANDELION),
+                    Map.entry(Blocks.DANDELION, Blocks.LILY_OF_THE_VALLEY),
+                    Map.entry(Blocks.LILY_OF_THE_VALLEY, Blocks.OXEYE_DAISY),
+                    Map.entry(Blocks.OXEYE_DAISY, Blocks.POPPY),
+                    Map.entry(Blocks.POPPY, Blocks.ORANGE_TULIP),
+                    Map.entry(Blocks.ORANGE_TULIP, Blocks.PINK_TULIP),
+                    Map.entry(Blocks.PINK_TULIP, Blocks.RED_TULIP),
+                    Map.entry(Blocks.RED_TULIP, Blocks.ALLIUM),
+
+                    // Two Block Tall Flowers
+                    Map.entry(Blocks.LILAC, Blocks.PEONY),
+                    Map.entry(Blocks.PEONY, Blocks.ROSE_BUSH),
+                    Map.entry(Blocks.ROSE_BUSH, Blocks.SUNFLOWER),
+                    Map.entry(Blocks.SUNFLOWER, Blocks.LILAC),
+
+                    // Crops
+                    Map.entry(Blocks.WHEAT, Blocks.POTATOES),
+                    Map.entry(Blocks.POTATOES, Blocks.CARROTS),
+                    Map.entry(Blocks.CARROTS, Blocks.BEETROOTS),
+                    Map.entry(Blocks.BEETROOTS, Blocks.NETHER_WART),
+                    Map.entry(Blocks.NETHER_WART, Blocks.WHEAT),
+
+                    // Stem Plants
+                    Map.entry(Blocks.MELON_STEM, Blocks.PUMPKIN_STEM),
+                    Map.entry(Blocks.PUMPKIN_STEM, Blocks.MELON_STEM),
+
+                    // Pumpkin and Melon Blocks
+                    Map.entry(Blocks.PUMPKIN, Blocks.MELON),
+                    Map.entry(Blocks.MELON, Blocks.PUMPKIN)
+            );
+
+    public PhilosophersStoneItem(Settings settings) {
+        super(settings);
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+
+        World world = context.getWorld();
+        Block affectedBlock = world.getBlockState(context.getBlockPos()).getBlock();
+
+        if (blockMap.containsKey(affectedBlock)) {
+            if (!world.isClient()) {
+                world.setBlockState(context.getBlockPos(), blockMap.get(affectedBlock).getDefaultState());
+
+                context.getStack().damage(1, ((ServerWorld) world), ((ServerPlayerEntity) context.getPlayer()),
+                        item -> context.getPlayer().sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+
+                world.playSound(null, context.getBlockPos(), ((SoundEvent) SoundEvents.ITEM_TRIDENT_RIPTIDE_1), SoundCategory.PLAYERS);
+            }
+         }
+
+        return ActionResult.SUCCESS;
+    }
+}

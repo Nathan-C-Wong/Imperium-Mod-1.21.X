@@ -24,7 +24,7 @@ public class ModItems {
     public static final Item HEAVENS_VERDICT = registerItem("heavens_verdict", new HeavensVerdictItem(new Item.Settings().maxDamage(2500).fireproof()));
 
     // Tools & misc items
-    public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().fireproof()));
+    public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(1799).fireproof()));
 
     /*  ===============================================================================  */
 
