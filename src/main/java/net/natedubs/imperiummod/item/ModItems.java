@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 import net.natedubs.imperiummod.ImperiumMod;
 import net.natedubs.imperiummod.item.custom.HeavensVerdictItem;
 import net.natedubs.imperiummod.item.custom.PhilosophersStoneItem;
+import net.natedubs.imperiummod.item.custom.WarpScepterItem;
 
 public class ModItems {
 
@@ -36,6 +37,7 @@ public class ModItems {
 
     // Tools & misc items
     public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(300).fireproof()));
+    public static final Item WARP_SCEPTER = registerItem("warp_scepter", new WarpScepterItem(new Item.Settings().maxDamage(500)));
 
     /*  ===============================================================================  */
 
@@ -63,6 +65,7 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(PHILOSOPHERS_STONE);
+            entries.add(WARP_SCEPTER);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {

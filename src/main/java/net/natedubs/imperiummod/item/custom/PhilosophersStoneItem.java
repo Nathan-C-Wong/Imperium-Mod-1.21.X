@@ -135,7 +135,7 @@ public class PhilosophersStoneItem extends Item {
                         flowerBase.down();
                     }
 
-                    TallPlantBlock.placeAt(world, BLOCK_MAP.get(affectedBlock).getDefaultState(), flowerBase, 3);
+                    TallPlantBlock.placeAt(world, BLOCK_MAP.get(affectedBlock).getDefaultState(), flowerBase, 1);
 
                 } else {
                     world.setBlockState(context.getBlockPos(), BLOCK_MAP.get(affectedBlock).getDefaultState());

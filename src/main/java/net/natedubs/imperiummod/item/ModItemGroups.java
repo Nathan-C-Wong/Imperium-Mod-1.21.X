@@ -42,6 +42,7 @@ public class ModItemGroups {
             // Custom Items
             itemGroup.add(ModItems.HEAVENS_VERDICT);
             itemGroup.add(ModItems.PHILOSOPHERS_STONE);
+            itemGroup.add(ModItems.WARP_SCEPTER);
 
             // Blocks
             itemGroup.add(ModBlocks.BLACK_DIAMOND_BLOCK);
