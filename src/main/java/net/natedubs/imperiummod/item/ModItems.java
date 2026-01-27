@@ -10,7 +10,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.natedubs.imperiummod.ImperiumMod;
-import net.natedubs.imperiummod.item.custom.HeavensVerdictItem;
+import net.natedubs.imperiummod.item.custom.GreaterWarpScepterItem;
+import net.natedubs.imperiummod.item.custom.JudgementItem;
 import net.natedubs.imperiummod.item.custom.PhilosophersStoneItem;
 import net.natedubs.imperiummod.item.custom.WarpScepterItem;
 
@@ -33,11 +34,12 @@ public class ModItems {
     public static final Item BURRITO = registerItem("burrito", new Item(new Item.Settings().food(BURRITO_COMPONENT)));
 
     // Combat
-    public static final Item HEAVENS_VERDICT = registerItem("heavens_verdict", new HeavensVerdictItem(new Item.Settings().maxDamage(2500).fireproof()));
+    public static final Item JUDGEMENT = registerItem("judgement", new JudgementItem(new Item.Settings().maxDamage(2500).fireproof()));
 
     // Tools & misc items
     public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(300).fireproof()));
-    public static final Item WARP_SCEPTER = registerItem("warp_scepter", new WarpScepterItem(new Item.Settings().maxDamage(500)));
+    public static final Item WARP_SCEPTER = registerItem("warp_scepter", new WarpScepterItem(new Item.Settings().maxDamage(250)));
+    public static final Item GREATER_WARP_SCEPTER = registerItem("greater_warp_scepter", new GreaterWarpScepterItem(new Item.Settings().fireproof()));
 
     /*  ===============================================================================  */
 
@@ -60,7 +62,7 @@ public class ModItems {
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
-            entries.add(HEAVENS_VERDICT);
+            entries.add(JUDGEMENT);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {

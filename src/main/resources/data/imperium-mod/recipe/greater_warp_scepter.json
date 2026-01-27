@@ -2,20 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "*": {
+    "%": {
       "item": "minecraft:nether_star"
+    },
+    "*": {
+      "item": "imperium-mod:warp_scepter"
     },
     "#": {
       "item": "imperium-mod:chaos_diamond"
     }
   },
   "pattern": [
-    "#",
-    "#",
-    "*"
+    "%",
+    "*",
+    "#"
   ],
   "result": {
     "count": 1,
-    "id": "imperium-mod:heavens_verdict"
+    "id": "imperium-mod:greater_warp_scepter"
   }
 }

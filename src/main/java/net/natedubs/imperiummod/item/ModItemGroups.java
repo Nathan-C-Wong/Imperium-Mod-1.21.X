@@ -40,9 +40,10 @@ public class ModItemGroups {
             itemGroup.add(ModItems.BURRITO);
 
             // Custom Items
-            itemGroup.add(ModItems.HEAVENS_VERDICT);
+            itemGroup.add(ModItems.JUDGEMENT);
             itemGroup.add(ModItems.PHILOSOPHERS_STONE);
             itemGroup.add(ModItems.WARP_SCEPTER);
+            itemGroup.add(ModItems.GREATER_WARP_SCEPTER);
 
             // Blocks
             itemGroup.add(ModBlocks.BLACK_DIAMOND_BLOCK);

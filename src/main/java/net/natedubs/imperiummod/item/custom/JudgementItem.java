@@ -18,10 +18,15 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class HeavensVerdictItem extends Item {
+public class JudgementItem extends Item {
 
-    public HeavensVerdictItem(Settings settings) {
+    public JudgementItem(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public boolean hasGlint(ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -62,8 +67,13 @@ public class HeavensVerdictItem extends Item {
         }
 
         if (coord != null) {
-
             ItemStack itemStack = user.getStackInHand(hand);
+
+            // So the item will not be usable at 1 durability (to prevent from breaking)
+            if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
+                return TypedActionResult.pass(user.getStackInHand(hand));
+            }
+
             itemStack.damage(
                     1,
                     ((ServerWorld) world),

@@ -1,11 +1,13 @@
 package net.natedubs.imperiummod.item.custom;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -126,22 +128,41 @@ public class PhilosophersStoneItem extends Item {
         if (BLOCK_MAP.containsKey(affectedBlock)) {
             if (!world.isClient()) {
 
+                ItemStack itemStack = context.getStack();
+
+                // So the item will not be usable at 1 durability (to prevent from breaking)
+                if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
+                    return ActionResult.PASS;
+                }
+
+                // For Double Tall Flowers
                 if (DOUBLE_TALL_FLOWERS.contains(affectedBlock)) {
 
-                    BlockPos flowerBase = context.getBlockPos();
+                    BlockPos pos = context.getBlockPos();
+                    BlockState oldState = world.getBlockState(pos);
 
-                    // Clicked Top half of double tall flower
-                    if (world.getBlockState(context.getBlockPos()).get(TallPlantBlock.HALF) == DoubleBlockHalf.UPPER) {
-                        flowerBase.down();
-                    }
+                    // Determine which half of the plant was clicked
+                    DoubleBlockHalf half = oldState.get(TallPlantBlock.HALF);
 
-                    TallPlantBlock.placeAt(world, BLOCK_MAP.get(affectedBlock).getDefaultState(), flowerBase, 1);
+                    // Get position of lower half
+                    BlockPos basePos = (half == DoubleBlockHalf.LOWER)
+                            ? pos
+                            : pos.down();
+
+                    Block next = BLOCK_MAP.get(oldState.getBlock());
+
+                    // Remove old flower (both halves)
+                    world.removeBlock(basePos, false);
+                    world.removeBlock(basePos.up(), false);
+
+                    // Plant the flower
+                    TallPlantBlock.placeAt(world, next.getDefaultState(), basePos, 3);
 
                 } else {
                     world.setBlockState(context.getBlockPos(), BLOCK_MAP.get(affectedBlock).getDefaultState());
                 }
 
-                context.getStack().damage(
+                itemStack.damage(
                         1,
                         ((ServerWorld) world),
                         ((ServerPlayerEntity) context.getPlayer()),

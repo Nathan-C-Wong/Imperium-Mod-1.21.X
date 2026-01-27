@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "imperium-mod:item/heavens_verdict"
+    "layer0": "imperium-mod:item/judgement"
   }
 }
