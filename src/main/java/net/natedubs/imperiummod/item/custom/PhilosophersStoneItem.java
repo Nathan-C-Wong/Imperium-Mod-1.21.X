@@ -9,11 +9,14 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -22,14 +25,26 @@ import java.util.Map;
 
 public class PhilosophersStoneItem extends Item {
 
+    // Item text
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        tooltip.add(Text.translatable("[Right click] to transmute certain").formatted(Formatting.DARK_RED));
+        tooltip.add(Text.translatable("blocks into other related blocks.").formatted(Formatting.DARK_RED));
+        tooltip.add(Text.translatable("").formatted());
+        tooltip.add(Text.translatable("Craft with redstone to repair").formatted(Formatting.GOLD));
+    }
+
     public static final Map<Block, Block> BLOCK_MAP =
             Map.ofEntries(
                     // Stone group
-                    Map.entry(Blocks.STONE, Blocks.STONE_BRICKS),
+                    Map.entry(Blocks.COBBLESTONE, Blocks.STONE),
+                    Map.entry(Blocks.STONE, Blocks.COBBLESTONE),
+
+                    // Stone Bricks
                     Map.entry(Blocks.STONE_BRICKS, Blocks.MOSSY_STONE_BRICKS),
                     Map.entry(Blocks.MOSSY_STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS),
                     Map.entry(Blocks.CRACKED_STONE_BRICKS, Blocks.CHISELED_STONE_BRICKS),
-                    Map.entry(Blocks.CHISELED_STONE_BRICKS, Blocks.STONE),
+                    Map.entry(Blocks.CHISELED_STONE_BRICKS, Blocks.STONE_BRICKS),
 
                     // Dirt group
                     Map.entry(Blocks.DIRT, Blocks.GRASS_BLOCK),
@@ -90,6 +105,14 @@ public class PhilosophersStoneItem extends Item {
                     Map.entry(Blocks.ORANGE_TULIP, Blocks.PINK_TULIP),
                     Map.entry(Blocks.PINK_TULIP, Blocks.RED_TULIP),
                     Map.entry(Blocks.RED_TULIP, Blocks.ALLIUM),
+
+                    // Mushrooms
+                    Map.entry(Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM),
+                    Map.entry(Blocks.BROWN_MUSHROOM, Blocks.RED_MUSHROOM),
+
+                    // Mushroom Blocks
+                    Map.entry(Blocks.RED_MUSHROOM_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK),
+                    Map.entry(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK),
 
                     // Two Block Tall Flowers
                     Map.entry(Blocks.LILAC, Blocks.PEONY),

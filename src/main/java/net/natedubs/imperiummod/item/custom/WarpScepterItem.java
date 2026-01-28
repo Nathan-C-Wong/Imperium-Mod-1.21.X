@@ -11,8 +11,11 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -22,10 +25,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class WarpScepterItem extends Item {
 
     public WarpScepterItem(Settings settings) {
         super(settings);
+    }
+
+    // Item text
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        tooltip.add(Text.translatable("This scepter grants the ability to teleport").formatted(Formatting.BLUE));
+        tooltip.add(Text.translatable("through the manipulation of Warp energy").formatted(Formatting.BLUE));
+        tooltip.add(Text.translatable("").formatted());
+        tooltip.add(Text.translatable("[Right click] to teleport to a block").formatted(Formatting.DARK_PURPLE));
+        tooltip.add(Text.translatable("Block must have room above it").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add(Text.translatable("").formatted());
+        tooltip.add(Text.translatable("One second cooldown").formatted(Formatting.AQUA));
     }
 
     // On Right Click
@@ -49,13 +66,20 @@ public class WarpScepterItem extends Item {
             case MISS:
                 break;
             case BLOCK:
+                // First block up
                 BlockHitResult blockHit = (BlockHitResult) hit;
                 BlockPos blockPos = blockHit.getBlockPos().up();
                 BlockState blockState = client.world.getBlockState(blockPos);
                 Block block = blockState.getBlock();
 
-                if (block == Blocks.AIR)
+                // Second block up
+                BlockPos blockPos1 = blockPos.up();
+                BlockState blockState1 = client.world.getBlockState(blockPos1);
+                Block block1 = blockState1.getBlock();
+
+                if (block == Blocks.AIR && block1 == Blocks.AIR) {
                     teleportPos = blockPos;
+                }
                 break;
             case ENTITY:
                 EntityHitResult entityHitResult = (EntityHitResult) hit;
