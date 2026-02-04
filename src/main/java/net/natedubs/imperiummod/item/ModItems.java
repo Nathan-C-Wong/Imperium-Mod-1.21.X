@@ -11,10 +11,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.natedubs.imperiummod.ImperiumMod;
-import net.natedubs.imperiummod.item.custom.GreaterWarpScepterItem;
-import net.natedubs.imperiummod.item.custom.JudgementItem;
-import net.natedubs.imperiummod.item.custom.PhilosophersStoneItem;
-import net.natedubs.imperiummod.item.custom.WarpScepterItem;
+import net.natedubs.imperiummod.item.custom.*;
 
 public class ModItems {
 
@@ -36,11 +33,13 @@ public class ModItems {
 
     // Combat
     public static final Item JUDGEMENT = registerItem("judgement", new JudgementItem(new Item.Settings().maxDamage(2500).fireproof().rarity(Rarity.RARE)));
+    public static final Item HUNTING_RIFLE = registerItem("hunting_rifle", new HuntingRifleItem(new Item.Settings().maxDamage(8).rarity(Rarity.RARE)));
 
     // Tools & misc items
     public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(300).fireproof().rarity(Rarity.RARE)));
     public static final Item WARP_SCEPTER = registerItem("warp_scepter", new WarpScepterItem(new Item.Settings().maxDamage(250).rarity(Rarity.RARE)));
-    public static final Item GREATER_WARP_SCEPTER = registerItem("greater_warp_scepter", new GreaterWarpScepterItem(new Item.Settings().fireproof().rarity(Rarity.EPIC)));
+    public static final Item GREATER_WARP_SCEPTER = registerItem("greater_warp_scepter", new GreaterWarpScepterItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
+    public static final Item REJUVENATION_SCEPTER = registerItem("rejuvenation_scepter", new RejuvenationScepterItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
 
     /*  ===============================================================================  */
 
@@ -64,11 +63,13 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
             entries.add(JUDGEMENT);
+            entries.add(HUNTING_RIFLE);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(PHILOSOPHERS_STONE);
             entries.add(WARP_SCEPTER);
+            entries.add(REJUVENATION_SCEPTER);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {

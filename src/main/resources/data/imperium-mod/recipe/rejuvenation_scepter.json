@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "%": {
+      "item": "minecraft:gold_block"
+    },
+    "*": {
+      "item": "minecraft:nether_star"
+    },
+    "$": {
+      "item": "minecraft:gold_ingot"
+    },
+    "#": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "pattern": [
+    "%*%",
+    "$#$",
+    "$#$"
+  ],
+  "result": {
+    "count": 1,
+    "id": "imperium-mod:rejuvenation_scepter"
+  }
+}

@@ -3,7 +3,6 @@ package net.natedubs.imperiummod.item.custom;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -57,8 +56,7 @@ public class WarpScepterItem extends Item {
         float tickDelta = 1.0F; //Used for tracking animation progress; no tracking is 1.0F
         boolean includeFluids = false; //Whether to detect fluids as blocks
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        HitResult hit = client.cameraEntity.raycast(maxReach, tickDelta, includeFluids);
+        HitResult hit = user.raycast(maxReach, tickDelta, includeFluids);
 
         BlockPos teleportPos = null;
 
@@ -69,12 +67,12 @@ public class WarpScepterItem extends Item {
                 // First block up
                 BlockHitResult blockHit = (BlockHitResult) hit;
                 BlockPos blockPos = blockHit.getBlockPos().up();
-                BlockState blockState = client.world.getBlockState(blockPos);
+                BlockState blockState = world.getBlockState(blockPos);
                 Block block = blockState.getBlock();
 
                 // Second block up
                 BlockPos blockPos1 = blockPos.up();
-                BlockState blockState1 = client.world.getBlockState(blockPos1);
+                BlockState blockState1 = world.getBlockState(blockPos1);
                 Block block1 = blockState1.getBlock();
 
                 if (block == Blocks.AIR && block1 == Blocks.AIR) {

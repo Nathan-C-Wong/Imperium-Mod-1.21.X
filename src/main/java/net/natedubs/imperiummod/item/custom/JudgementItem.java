@@ -1,6 +1,5 @@
 package net.natedubs.imperiummod.item.custom;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -38,13 +37,11 @@ public class JudgementItem extends Item {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
 
-        MinecraftClient client = MinecraftClient.getInstance();
-
         double maxReach = 300; //The farthest target the cameraEntity can detect
         float tickDelta = 1.0F; //Used for tracking animation progress; no tracking is 1.0F
         boolean includeFluids = false; //Whether to detect fluids as blocks
 
-        HitResult hit = client.cameraEntity.raycast(maxReach, tickDelta, includeFluids);
+        HitResult hit = user.raycast(maxReach, tickDelta, includeFluids);
 
         // Coordinate for lightningbolt
         BlockPos coord = null;
@@ -57,7 +54,7 @@ public class JudgementItem extends Item {
                 BlockPos blockPos = blockHit.getBlockPos();
                 coord = blockPos;
                 break;
-            case ENTITY:
+            case ENTITY:  // Will fix later (doesnt work with user.Raycast)
                 EntityHitResult entityHit = (EntityHitResult) hit;
                 Entity entity = entityHit.getEntity();
                 BlockPos entityPos = entity.getBlockPos();

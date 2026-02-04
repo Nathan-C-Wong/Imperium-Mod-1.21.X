@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "imperium-mod:item/rejuvenation_scepter"
+  }
+}

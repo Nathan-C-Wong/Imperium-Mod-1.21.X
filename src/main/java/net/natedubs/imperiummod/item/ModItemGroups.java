@@ -44,6 +44,8 @@ public class ModItemGroups {
             itemGroup.add(ModItems.PHILOSOPHERS_STONE);
             itemGroup.add(ModItems.WARP_SCEPTER);
             itemGroup.add(ModItems.GREATER_WARP_SCEPTER);
+            itemGroup.add(ModItems.REJUVENATION_SCEPTER);
+            itemGroup.add(ModItems.HUNTING_RIFLE);
 
             // Blocks
             itemGroup.add(ModBlocks.BLACK_DIAMOND_BLOCK);
