@@ -32,7 +32,7 @@ public class ModItems {
     public static final Item BURRITO = registerItem("burrito", new Item(new Item.Settings().food(BURRITO_COMPONENT)));
 
     // Combat
-    public static final Item JUDGEMENT = registerItem("judgement", new JudgementItem(new Item.Settings().maxDamage(2500).fireproof().rarity(Rarity.RARE)));
+    public static final Item JUDGEMENT = registerItem("judgement", new JudgementItem(new Item.Settings().maxDamage(100).fireproof().rarity(Rarity.EPIC)));
     public static final Item HUNTING_RIFLE = registerItem("hunting_rifle", new HuntingRifleItem(new Item.Settings().maxDamage(8).rarity(Rarity.RARE)));
 
     // Tools & misc items

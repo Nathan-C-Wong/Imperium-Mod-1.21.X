@@ -1,5 +1,7 @@
 package net.natedubs.imperiummod.item.custom;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -7,8 +9,13 @@ import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -16,6 +23,8 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class JudgementItem extends Item {
 
@@ -26,6 +35,15 @@ public class JudgementItem extends Item {
     @Override
     public boolean hasGlint(ItemStack stack) {
         return true;
+    }
+
+    // Item text
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        tooltip.add(Text.translatable("You are the Judge, Jury and Executioner.").formatted(Formatting.BLUE));
+        tooltip.add(Text.translatable("").formatted());
+        tooltip.add(Text.translatable("[Right click] to Smite").formatted(Formatting.GOLD));
+        tooltip.add(Text.translatable("").formatted());
     }
 
     @Override
@@ -78,15 +96,62 @@ public class JudgementItem extends Item {
                     item -> user.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND)
             );
 
+            // For explosion
+            world.createExplosion(
+                    null,
+                    coord.toCenterPos().getX(),  coord.toCenterPos().getY()+0.5,  coord.toCenterPos().getZ(),
+                    2.0f,
+                    false,
+                    World.ExplosionSourceType.NONE
+            );
+
+            // Lightning Bolt
             LightningEntity lightningBolt = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
             lightningBolt.setPosition(coord.toCenterPos());
             world.spawnEntity(lightningBolt);
 
-            // For explosion
-            world.createExplosion(user, coord.toCenterPos().getX(), coord.toCenterPos().getY(), coord.toCenterPos().getZ(), 0, false, World.ExplosionSourceType.TNT);
+            // Particles
+            ((ServerWorld)world).spawnParticles(
+                    ParticleTypes.ENCHANT,
+                    coord.toCenterPos().getX(),
+                    coord.toCenterPos().getY() + 1,
+                    coord.toCenterPos().getZ(),
+                    100,
+                    1,1,1,
+                    0.2
+            );
 
         }
 
         return TypedActionResult.success(user.getStackInHand(hand));
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (world.isClient) return;
+        if (!(entity instanceof PlayerEntity)) return;
+        if (!stack.isDamaged()) return;
+
+        long now = world.getTime();
+
+        // store per-item timer
+        NbtCompound nbt = stack.getOrDefault(
+                DataComponentTypes.CUSTOM_DATA,
+                NbtComponent.DEFAULT
+        ).copyNbt();
+
+        long nextRepair = nbt.getLong("nextRepair");
+
+        if (now < nextRepair) return;
+
+        // repair item
+        if (stack.isDamaged()) {
+            stack.setDamage(stack.getDamage() - 1);
+        }
+
+        // schedule next repair in 1 second
+        nbt.putLong("nextRepair", now + 20);
+        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+
     }
 }

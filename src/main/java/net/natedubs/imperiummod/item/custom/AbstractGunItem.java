@@ -2,6 +2,7 @@ package net.natedubs.imperiummod.item.custom;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
@@ -15,6 +16,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -25,7 +27,7 @@ public abstract class AbstractGunItem extends Item {
     protected abstract RegistryEntry<SoundEvent> getSoundEffect();
 
     protected void onEntityHit(World world, PlayerEntity user, LivingEntity target) {}
-    protected void onBlockHit(World world, PlayerEntity user, BlockPos pos) {}
+    protected void onBlockHit(World world, PlayerEntity user, BlockPos pos, HitResult hit) {}
     protected void onMiss(World world, PlayerEntity user, Vec3d end) {}
 
     public AbstractGunItem(Settings settings) {
@@ -41,27 +43,48 @@ public abstract class AbstractGunItem extends Item {
     }
 
     protected void fire(World world, PlayerEntity user) {
-        Vec3d start = user.getCameraPosVec(1.0f);
+        Vec3d verticalOffset = new Vec3d(0,0.5,0);
+        Vec3d start = user.getCameraPosVec(1.0f).subtract(verticalOffset);
         Vec3d direction = user.getRotationVec(1.0f);
-        Vec3d end = start.add(direction.multiply(getRange()));
+        Vec3d end = start.add(verticalOffset).add(direction.multiply(getRange()));
 
         HitResult hitResult = user.raycast(getRange(), 1.0f, false);
 
-        spawnTrail(world, start, end);
         playFireSound(world, user);
 
+        // Fix hitbox issue on the right
+        Box box = new Box(start.x-0.01, start.y-0.01, start.z-0.01, start.x+0.01, start.y+0.01, start.z+0.01);
+
+        // Detecting mob
+        EntityHitResult entityHitResult = ProjectileUtil.getEntityCollision(
+                world,
+                user,
+                start,
+                end,
+                box.stretch(direction.multiply(300.0)),
+                entity -> entity instanceof LivingEntity && entity != user
+        );
+
+        if (entityHitResult != null) {
+            LivingEntity livingEntity = ((LivingEntity)entityHitResult.getEntity());
+
+            // Fix this later (its shooting too far)
+            Vec3d adjustmentVec = entityHitResult.getPos().add(end);
+
+            spawnTrail(world, start, adjustmentVec);
+            onEntityHit(world, user, livingEntity);
+            return;
+        }
+
         switch(hitResult.getType()) {
-            case ENTITY -> {
-                EntityHitResult entityHit = (EntityHitResult)hitResult;
-                if (entityHit.getEntity() instanceof LivingEntity livingEntity) {
-                    onEntityHit(world, user, livingEntity);
-                }
-            }
             case BLOCK -> {
                 BlockPos blockPos = ((BlockHitResult)hitResult).getBlockPos();
-                onBlockHit(world, user, blockPos);
+                onBlockHit(world, user, blockPos, hitResult);
             }
-            case MISS -> onMiss(world, user, end);
+            case MISS -> {
+                spawnTrail(world, start, end);
+                onMiss(world, user, end);
+            }
         }
     }
 
