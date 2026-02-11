@@ -29,6 +29,7 @@ public abstract class AbstractGunItem extends Item {
     protected void onEntityHit(World world, PlayerEntity user, LivingEntity target) {}
     protected void onBlockHit(World world, PlayerEntity user, BlockPos pos, HitResult hit) {}
     protected void onMiss(World world, PlayerEntity user, Vec3d end) {}
+    protected void createBloodParticles(World world, Vec3d hitLocation) {}
 
     public AbstractGunItem(Settings settings) {
         super(settings);
@@ -52,8 +53,8 @@ public abstract class AbstractGunItem extends Item {
 
         playFireSound(world, user);
 
-        // Fix hitbox issue on the right
-        Box box = new Box(start.x-0.01, start.y-0.01, start.z-0.01, start.x+0.01, start.y+0.01, start.z+0.01);
+        // Creates box for raycasting (side length: 0.2)
+        Box box = new Box(start, start).expand(0.1);
 
         // Detecting mob
         EntityHitResult entityHitResult = ProjectileUtil.getEntityCollision(
@@ -65,17 +66,22 @@ public abstract class AbstractGunItem extends Item {
                 entity -> entity instanceof LivingEntity && entity != user
         );
 
+        // Hitting an entity
         if (entityHitResult != null) {
             LivingEntity livingEntity = ((LivingEntity)entityHitResult.getEntity());
 
-            // Fix this later (its shooting too far)
-            Vec3d adjustmentVec = entityHitResult.getPos().add(end);
+            Vec3d playerToTarget = entityHitResult.getPos().subtract(start);
+            double lengthToTarget = playerToTarget.length();
 
-            spawnTrail(world, start, adjustmentVec);
+            Vec3d targetHit = start.add(direction.multiply(lengthToTarget));
+
+            spawnTrail(world, start, targetHit);
+            createBloodParticles(world, targetHit);
             onEntityHit(world, user, livingEntity);
             return;
         }
 
+        // Hitting a block or not hitting anything
         switch(hitResult.getType()) {
             case BLOCK -> {
                 BlockPos blockPos = ((BlockHitResult)hitResult).getBlockPos();

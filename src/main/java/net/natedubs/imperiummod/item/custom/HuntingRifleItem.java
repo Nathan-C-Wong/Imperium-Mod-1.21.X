@@ -1,9 +1,13 @@
 package net.natedubs.imperiummod.item.custom;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -42,9 +46,10 @@ public class HuntingRifleItem extends AbstractGunItem {
         if (world.isClient) return;
 
         target.addStatusEffect(
-                //new StatusEffectInstance(StatusEffects.GLOWING, 100, 0)
                 new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 1)
         );
+
+        summonFireWork(world, target);
     }
 
     @Override
@@ -53,12 +58,14 @@ public class HuntingRifleItem extends AbstractGunItem {
         if (world.getBlockState(pos).isAir()) return;
 
         Boolean transparent = world.getBlockState(pos).isTransparent(world, pos);
+        Vec3d verticalOffset = new Vec3d(0,0.5,0);
+        Vec3d start = user.getCameraPosVec(1.0f).subtract(verticalOffset);
 
         if (!transparent) {
-            spawnTrail(world, user.getCameraPosVec(1.0f), hit.getPos());
+            spawnTrail(world, start, hit.getPos());
         } else {
             Vec3d blockVec3 = hit.getPos();
-            spawnTrail(world, user.getCameraPosVec(1.0f), blockVec3);
+            spawnTrail(world, start, blockVec3);
         }
 
         // Block Collision Particle Effect
@@ -74,4 +81,30 @@ public class HuntingRifleItem extends AbstractGunItem {
         );
     }
 
+    protected void summonFireWork(World world, LivingEntity target) {
+        ItemStack fireworkStack = new ItemStack(Items.FIREWORK_ROCKET);
+
+        FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(
+                world,
+                target.getPos().x,
+                target.getPos().y ,
+                target.getPos().z,
+                fireworkStack
+        );
+
+        world.spawnEntity(fireworkRocketEntity);
+    }
+
+    @Override
+    protected void createBloodParticles(World world, Vec3d hitLocation) {
+        ((ServerWorld)world).spawnParticles(
+                new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.REDSTONE_BLOCK.getDefaultState()),
+                hitLocation.getX(),
+                hitLocation.getY(),
+                hitLocation.getZ(),
+                50,
+                0.1,0.1,0.1,
+                0.5
+        );
+    }
 }
