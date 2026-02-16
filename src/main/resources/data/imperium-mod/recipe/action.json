@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:iron_block"
+    },
+    "&": {
+      "item": "minecraft:lever"
+    },
+    "@": {
+      "item": "minecraft:stone_button"
+    }
+  },
+  "pattern": [
+    "&##",
+    "###",
+    "#@ "
+  ],
+  "result": {
+    "count": 1,
+    "id": "imperium-mod:action"
+  }
+}

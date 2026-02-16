@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "combat",
+  "key": {
+    "=": {
+      "item": "imperium-mod:barrel"
+    },
+    "#": {
+      "item": "imperium-mod:stock"
+    },
+    "%": {
+      "item": "imperium-mod:action"
+    }
+  },
+  "pattern": [
+    "%==",
+    "#  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "imperium-mod:hunting_rifle"
+  }
+}

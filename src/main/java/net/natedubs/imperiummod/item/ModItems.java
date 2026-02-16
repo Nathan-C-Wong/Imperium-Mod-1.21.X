@@ -23,6 +23,10 @@ public class ModItems {
     public static final Item CHAOS_DIAMOND = registerItem("chaos_diamond", new Item(new Item.Settings()));
     public static final Item UNREFINED_CHAOS_DIAMOND = registerItem("unrefined_chaos_diamond", new Item(new Item.Settings()));
 
+    public static final Item ACTION = registerItem("action", new Item(new Item.Settings()));
+    public static final Item STOCK = registerItem("stock", new Item(new Item.Settings()));
+    public static final Item BARREL = registerItem("barrel", new Item(new Item.Settings()));
+
     // Food
     public static final FoodComponent BURRITO_COMPONENT = new FoodComponent.Builder()
             .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 5*20, 2), 1.0f)
@@ -34,6 +38,7 @@ public class ModItems {
     // Combat
     public static final Item JUDGEMENT = registerItem("judgement", new JudgementItem(new Item.Settings().maxDamage(100).fireproof().rarity(Rarity.EPIC)));
     public static final Item HUNTING_RIFLE = registerItem("hunting_rifle", new HuntingRifleItem(new Item.Settings().maxDamage(8).rarity(Rarity.RARE)));
+    public static final Item RAY_GUN = registerItem("ray_gun", new RayGunItem(new Item.Settings().maxDamage(20).rarity(Rarity.EPIC)));
 
     // Tools & misc items
     public static final Item PHILOSOPHERS_STONE = registerItem("philosophers_stone", new PhilosophersStoneItem(new Item.Settings().maxDamage(300).fireproof().rarity(Rarity.RARE)));
@@ -59,11 +64,16 @@ public class ModItems {
             entries.add(UNREFINED_BLACK_DIAMOND);
             entries.add(CHAOS_DIAMOND);
             entries.add(UNREFINED_CHAOS_DIAMOND);
+
+            entries.add(ACTION); // Mechanical part of a gun
+            entries.add(STOCK);  // Handle of the gun
+            entries.add(BARREL); // Barrel of the gun (part where the bullet flies out from)
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
             entries.add(JUDGEMENT);
             entries.add(HUNTING_RIFLE);
+            entries.add(RAY_GUN);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {

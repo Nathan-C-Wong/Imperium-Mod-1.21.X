@@ -99,8 +99,8 @@ public class JudgementItem extends Item {
             // For explosion
             world.createExplosion(
                     null,
-                    coord.toCenterPos().getX(),  coord.toCenterPos().getY()+0.5,  coord.toCenterPos().getZ(),
-                    2.0f,
+                    hit.getPos().getX(),  hit.getPos().getY(),  hit.getPos().getZ(),
+                    2.4f,
                     false,
                     World.ExplosionSourceType.NONE
             );

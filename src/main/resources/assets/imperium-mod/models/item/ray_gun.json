@@ -1,17 +1,17 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "imperium-mod:item/hunting_rifle"
+    "layer0": "imperium-mod:item/ray_gun"
   },
   "display": {
     "thirdperson_righthand": {
       "rotation": [ 0, 90, 35 ],
-      "translation": [ 1.25, 1.25, -3.5 ],
-      "scale": [ 2, 2, 0.6 ]
+      "translation": [ 1.25, 3, 1.5 ],
+      "scale": [ 1, 1, 0.6 ]
     },
     "firstperson_righthand": {
       "rotation": [ 0, 90, 25 ],
-      "translation": [ 1.13, 3.2, -1.13 ],
+      "translation": [ 1.13, 3.2, -3.13 ],
       "scale": [ 0.65, 0.65, 0.35 ]
     }
   }

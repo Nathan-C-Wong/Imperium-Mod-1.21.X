@@ -6,6 +6,10 @@
   "item.imperium-mod.chaos_diamond": "Chaos Diamond",
   "item.imperium-mod.unrefined_chaos_diamond": "Unrefined Chaos Diamond",
 
+  "item.imperium-mod.action": "Action",
+  "item.imperium-mod.stock": "Stock",
+  "item.imperium-mod.barrel": "Barrel",
+
   "item.imperium-mod.burrito": "Burrito",
 
   "item.imperium-mod.judgement": "Judgement",
@@ -14,10 +18,14 @@
   "item.imperium-mod.greater_warp_scepter": "Greater Warp Scepter",
   "item.imperium-mod.rejuvenation_scepter": "Rejuvenation Scepter",
   "item.imperium-mod.hunting_rifle": "Hunting Rifle",
+  "item.imperium-mod.ray_gun": "Ray Gun",
 
   "block.imperium-mod.black_diamond_block": "Block of Black Diamond",
   "block.imperium-mod.black_diamond_ore": "Black Diamond Ore",
   "block.imperium-mod.chaos_diamond_block": "Block of Chaos Diamond",
   "block.imperium-mod.chaos_diamond_ore": "Chaos Diamond Ore",
-  "block.imperium-mod.cube_of_corruption": "Cube of Corruption"
+  "block.imperium-mod.cube_of_corruption": "Cube of Corruption",
+
+  "death.attack.hunting_rifle_damage": "%1$s was involved in a hunting accident.",
+  "death.attack.ray_gun_damage": "%1$s was decimated by %2$s's Ray Gun"
 }

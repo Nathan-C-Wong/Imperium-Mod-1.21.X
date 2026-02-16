@@ -36,6 +36,11 @@ public class ModItemGroups {
             itemGroup.add(ModItems.CHAOS_DIAMOND);
             itemGroup.add(ModItems.UNREFINED_CHAOS_DIAMOND);
 
+            // Misc Crafting Mats
+            itemGroup.add(ModItems.ACTION);
+            itemGroup.add(ModItems.STOCK);
+            itemGroup.add(ModItems.BARREL);
+
             // Food
             itemGroup.add(ModItems.BURRITO);
 
@@ -46,6 +51,7 @@ public class ModItemGroups {
             itemGroup.add(ModItems.GREATER_WARP_SCEPTER);
             itemGroup.add(ModItems.REJUVENATION_SCEPTER);
             itemGroup.add(ModItems.HUNTING_RIFLE);
+            itemGroup.add(ModItems.RAY_GUN);
 
             // Blocks
             itemGroup.add(ModBlocks.BLACK_DIAMOND_BLOCK);

@@ -1,5 +1,6 @@
 package net.natedubs.imperiummod.item.custom;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -18,6 +19,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public abstract class AbstractGunItem extends Item {
@@ -25,11 +27,13 @@ public abstract class AbstractGunItem extends Item {
     protected abstract double getRange();
     protected abstract ParticleEffect getParticleEffect();
     protected abstract RegistryEntry<SoundEvent> getSoundEffect();
+    protected abstract boolean canPenetrate(BlockState state);
+    protected abstract int getCooldown();
 
     protected void onEntityHit(World world, PlayerEntity user, LivingEntity target) {}
     protected void onBlockHit(World world, PlayerEntity user, BlockPos pos, HitResult hit) {}
     protected void onMiss(World world, PlayerEntity user, Vec3d end) {}
-    protected void createBloodParticles(World world, Vec3d hitLocation) {}
+    protected void createEntityHitParticles(World world, Vec3d hitLocation) {}
 
     public AbstractGunItem(Settings settings) {
         super(settings);
@@ -39,6 +43,7 @@ public abstract class AbstractGunItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient) {
             fire(world, user);
+            user.getItemCooldownManager().set(this, getCooldown());
         }
         return TypedActionResult.success(user.getStackInHand(hand));
     }
@@ -49,9 +54,53 @@ public abstract class AbstractGunItem extends Item {
         Vec3d direction = user.getRotationVec(1.0f);
         Vec3d end = start.add(verticalOffset).add(direction.multiply(getRange()));
 
-        HitResult hitResult = user.raycast(getRange(), 1.0f, false);
-
         playFireSound(world, user);
+
+        Vec3d currentStart = start;
+        HitResult hit = null;
+        double maxDistance = getRange();
+
+        // We use loop to check each block in the path of the shot to check if there are any we can shoot through (like leaves)
+        while (true) {
+            /*
+             * raycast from current start to end
+             * "RaycastContext.ShapeType.COLLIDER" passes through non-collision blocks (like flowers, buttons, etc)
+             * "RaycastContext.FluidHandling.NONE" ignores fluids
+             */
+            hit = world.raycast(
+                    new RaycastContext(
+                            currentStart,
+                            end,
+                            RaycastContext.ShapeType.COLLIDER,
+                            RaycastContext.FluidHandling.NONE,
+                            user
+                    )
+            );
+
+            // If it encounters an entity (something thats not a block) then exits the loop
+            if (hit.getType() != HitResult.Type.BLOCK) {
+                break;
+            }
+
+            // When we do hit a block we record it
+            BlockState blockState = world.getBlockState(((BlockHitResult)hit).getBlockPos());
+
+            // This checks if the block can be penetrated or not (if it can then continues)
+            // Sets the maxDistance of the shot path to that block
+            if (!(canPenetrate(blockState))) {
+                maxDistance = start.distanceTo(hit.getPos());
+                break;
+            }
+
+            // Increase current start (to check the next blocks if they can be pierced)
+            // Since every loop only checks 1 block at a time
+            currentStart = hit.getPos().add(direction.multiply(0.01));
+
+            // If we hit the range limit of the weapon then stops looping
+            if (start.distanceTo(currentStart) >= getRange()) {
+                break;
+            }
+        }
 
         // Creates box for raycasting (side length: 0.2)
         Box box = new Box(start, start).expand(0.1);
@@ -62,7 +111,7 @@ public abstract class AbstractGunItem extends Item {
                 user,
                 start,
                 end,
-                box.stretch(direction.multiply(300.0)),
+                box.stretch(direction.multiply(maxDistance)),
                 entity -> entity instanceof LivingEntity && entity != user
         );
 
@@ -76,16 +125,16 @@ public abstract class AbstractGunItem extends Item {
             Vec3d targetHit = start.add(direction.multiply(lengthToTarget));
 
             spawnTrail(world, start, targetHit);
-            createBloodParticles(world, targetHit);
+            createEntityHitParticles(world, targetHit); // Default: no blood shown unless implemented in specific weapon class
             onEntityHit(world, user, livingEntity);
             return;
         }
 
         // Hitting a block or not hitting anything
-        switch(hitResult.getType()) {
+        switch(hit.getType()) {
             case BLOCK -> {
-                BlockPos blockPos = ((BlockHitResult)hitResult).getBlockPos();
-                onBlockHit(world, user, blockPos, hitResult);
+                BlockPos blockPos = ((BlockHitResult)hit).getBlockPos();
+                onBlockHit(world, user, blockPos, hit);
             }
             case MISS -> {
                 spawnTrail(world, start, end);
